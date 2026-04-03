@@ -82,7 +82,7 @@ sudo ./scripts/install_full.sh
 
 ## 🛠️ Tech Stack
 
-* Linux (Debian/Ubuntu)
+* Linux (Debian)
 * SSH
 * Tailscale VPN
 * UFW Firewall
