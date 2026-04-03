@@ -1,11 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ==================================================
 # 🔥 Secure Remote Server - GOD LEVEL SETUP
 # Author: Muhajirin Saad
 # ==================================================
 
-set -e
+set -euo pipefail
+
+# ===============================
+# CHECK ROOT
+# ===============================
+if [[ $EUID -ne 0 ]]; then
+  echo "❌ Please run as root: sudo ./install_full.sh"
+  exit 1
+fi
 
 echo "🚀 Starting GOD LEVEL server setup..."
 
@@ -13,46 +21,43 @@ echo "🚀 Starting GOD LEVEL server setup..."
 # UPDATE SYSTEM
 # ===============================
 echo "📦 Updating system..."
-sudo apt update && sudo apt upgrade -y
+apt update && apt upgrade -y
 
 # ===============================
 # INSTALL CORE PACKAGES
 # ===============================
 echo "🛠 Installing core packages..."
-sudo apt install -y \
+apt install -y \
   curl wget git ufw fail2ban nginx \
   htop net-tools ca-certificates gnupg lsb-release
 
 # ===============================
-# INSTALL TAILSCALE (PRIVATE VPN)
+# INSTALL TAILSCALE
 # ===============================
 echo "🔐 Installing Tailscale..."
 curl -fsSL https://tailscale.com/install.sh | sh
-
-echo "👉 After install run:"
-echo "sudo tailscale up"
 
 # ===============================
 # FIREWALL SETUP (UFW)
 # ===============================
 echo "🔥 Configuring firewall..."
 
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
+ufw default deny incoming
+ufw default allow outgoing
 
-sudo ufw allow 22/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
+ufw allow 22/tcp
+ufw allow 80/tcp
+ufw allow 443/tcp
 
-sudo ufw --force enable
+ufw --force enable
 
 # ===============================
-# FAIL2BAN (ANTI BRUTE FORCE)
+# FAIL2BAN
 # ===============================
 echo "🛡 Setting up Fail2Ban..."
 
-sudo systemctl enable fail2ban
-sudo systemctl start fail2ban
+systemctl enable fail2ban
+systemctl start fail2ban
 
 # ===============================
 # SSH HARDENING
@@ -61,26 +66,23 @@ echo "🔒 Hardening SSH..."
 
 SSH_CONFIG="/etc/ssh/sshd_config"
 
-sudo sed -i 's/#PermitRootLogin yes/PermitRootLogin no/' $SSH_CONFIG
-sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' $SSH_CONFIG
+cp "$SSH_CONFIG" "${SSH_CONFIG}.bak"
 
-sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' $SSH_CONFIG
-sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' $SSH_CONFIG
+sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' "$SSH_CONFIG"
+sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' "$SSH_CONFIG"
+sed -i 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' "$SSH_CONFIG"
 
-sudo sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' $SSH_CONFIG
-
-sudo systemctl restart ssh
+systemctl restart ssh
 
 # ===============================
 # NGINX SETUP
 # ===============================
 echo "🌐 Setting up Nginx..."
 
-sudo systemctl enable nginx
-sudo systemctl start nginx
+systemctl enable nginx
+systemctl start nginx
 
-# Basic web page
-echo "<h1>🔥 Server Secure by Muhajirin Saad</h1>" | sudo tee /var/www/html/index.html
+echo "<h1>🔥 Server Secured by Muhajirin Saad</h1>" > /var/www/html/index.html
 
 # ===============================
 # INSTALL DOCKER
@@ -88,28 +90,31 @@ echo "<h1>🔥 Server Secure by Muhajirin Saad</h1>" | sudo tee /var/www/html/in
 echo "🐳 Installing Docker..."
 
 curl -fsSL https://get.docker.com | sh
-sudo usermod -aG docker $USER
+
+# add current user to docker group (if exists)
+if [[ -n "${SUDO_USER:-}" ]]; then
+  usermod -aG docker "$SUDO_USER"
+fi
 
 # ===============================
 # INSTALL DOCKER COMPOSE
 # ===============================
 echo "📦 Installing Docker Compose..."
-
-sudo apt install -y docker-compose
+apt install -y docker-compose
 
 # ===============================
-# ENABLE AUTO SECURITY UPDATES
+# AUTO SECURITY UPDATES
 # ===============================
 echo "🔄 Enabling auto security updates..."
 
-sudo apt install -y unattended-upgrades
-sudo dpkg-reconfigure -plow unattended-upgrades
+apt install -y unattended-upgrades
+dpkg-reconfigure -plow unattended-upgrades
 
 # ===============================
 # SYSTEM INFO
 # ===============================
 echo "📊 System info:"
-hostname -I
+hostname -I || true
 uname -a
 
 # ===============================
