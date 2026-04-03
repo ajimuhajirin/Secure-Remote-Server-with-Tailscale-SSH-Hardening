@@ -3,48 +3,108 @@
 ![VPN](https://img.shields.io/badge/VPN-Tailscale-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
+# 🔐 Secure Remote Server with Tailscale & SSH Hardening
 
-# 🔐 Secure-Remote-Server-with-Tailscale-SSH-Hardening
-This project demonstrates how to securely access a remote Linux server without exposing it to the public internet using a modern zero-trust VPN.
+> Securely access your Linux server without exposing it to the public internet using a zero-trust VPN approach.
 
-<img width="183" height="224" alt="Screenshot 2026-04-03 at 16 33 18" src="https://github.com/user-attachments/assets/b69c7758-2cc4-4d88-a206-94f108c12d57" />
+---
+
+## 🚀 Installation Options
+
+### 🟢 Basic Setup
+
+```bash
+chmod +x scripts/install_basic.sh
+./scripts/install_basic.sh
+```
+
+### 💀 Full Setup (Recommended)
+
+```bash
+chmod +x scripts/install_full.sh
+sudo ./scripts/install_full.sh
+```
+
+---
 
 ## 🚀 Features
-- Secure SSH configuration
-- Remote access without port forwarding (Tailscale VPN)
-- Firewall protection using UFW
-- Brute force protection using Fail2Ban
-- Troubleshooting common server issues
+
+* 🔐 Secure SSH configuration (no password login)
+* 🌐 Remote access without port forwarding (Tailscale VPN)
+* 🔥 Firewall protection using UFW
+* 🛡 Brute-force protection using Fail2Ban
+* 🚑 Troubleshooting common server issues
+
+---
 
 ## 📂 Project Structure
-<img width="215" height="289" alt="Screenshot 2026-04-03 at 16 37 19" src="https://github.com/user-attachments/assets/f2d2eac0-fa33-401b-87e7-19206dfcc55f" />
 
-# 🔒 Security Checklist
+```
+scripts/
+  ├── install_basic.sh
+  └── install_full.sh
 
-- [x] Disable root login
-- [x] Disable password authentication
-- [x] Enable UFW firewall
-- [x] Install Fail2Ban
-- [x] Use private VPN (Tailscale)
+setup/
+  ├── install_tailscale.md
+  ├── setup_ssh.md
+  └── ssh_config_example
+
+security/
+  ├── hardening_ssh.md
+  ├── firewall_ufw.md
+  └── fail2ban_setup.md
+
+troubleshooting/
+  ├── common_errors.md
+  └── locale_fix.md
+```
+
+---
+
+## 🔒 Security Checklist
+
+* [x] Disable root login
+* [x] Disable password authentication
+* [x] Enable UFW firewall
+* [x] Install Fail2Ban
+* [x] Use private VPN (Tailscale)
+
+---
 
 ## ⚡ Quick Start
 
 ```bash
-bash scripts/install.sh
+chmod +x scripts/install_full.sh
+sudo ./scripts/install_full.sh
+```
 
-🛠️ Tech Stack
-Linux (Debian/Ubuntu)
-SSH
-Tailscale VPN
-UFW Firewall
-Fail2Ban
+---
 
-🧠 Author
-Muhajirin Saad
+## 🛠️ Tech Stack
+
+* Linux (Debian/Ubuntu)
+* SSH
+* Tailscale VPN
+* UFW Firewall
+* Fail2Ban
+
+---
 
 ## 🎯 Use Case
 
-- Secure home server without exposing ports
-- Access VPS privately using Tailscale
-- Protect SSH from brute-force attacks
-- Build zero-trust remote infrastructure
+* Secure home server without exposing ports
+* Access VPS privately using Tailscale
+* Protect SSH from brute-force attacks
+* Build zero-trust remote infrastructure
+
+---
+
+## 🧠 Author
+
+**Muhajirin Saad**
+
+---
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
