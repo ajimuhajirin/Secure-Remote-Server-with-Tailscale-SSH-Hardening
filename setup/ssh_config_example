@@ -1,3 +1,4 @@
-# Install Tailscale
-
-Coming soon...
+Port 22
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
