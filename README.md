@@ -7,6 +7,8 @@
 # 🔐 Secure-Remote-Server-with-Tailscale-SSH-Hardening
 This project demonstrates how to securely access a remote Linux server without exposing it to the public internet using a modern zero-trust VPN.
 
+<img width="183" height="224" alt="Screenshot 2026-04-03 at 16 33 18" src="https://github.com/user-attachments/assets/b69c7758-2cc4-4d88-a206-94f108c12d57" />
+
 ## 🚀 Features
 - Secure SSH configuration
 - Remote access without port forwarding (Tailscale VPN)
@@ -15,12 +17,16 @@ This project demonstrates how to securely access a remote Linux server without e
 - Troubleshooting common server issues
 
 ## 📂 Project Structure
-secure-remote-server/
-├── setup/
-├── security/
-├── troubleshooting/
-├── scripts/
-└── assets/
+<img width="215" height="289" alt="Screenshot 2026-04-03 at 16 37 19" src="https://github.com/user-attachments/assets/f2d2eac0-fa33-401b-87e7-19206dfcc55f" />
+
+# 🔒 Security Checklist
+
+- [x] Disable root login
+- [x] Disable password authentication
+- [x] Enable UFW firewall
+- [x] Install Fail2Ban
+- [x] Use private VPN (Tailscale)
+
 ## ⚡ Quick Start
 
 ```bash
@@ -35,3 +41,10 @@ Fail2Ban
 
 🧠 Author
 Muhajirin Saad
+
+## 🎯 Use Case
+
+- Secure home server without exposing ports
+- Access VPS privately using Tailscale
+- Protect SSH from brute-force attacks
+- Build zero-trust remote infrastructure
